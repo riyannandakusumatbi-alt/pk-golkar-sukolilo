@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PK Partai Golkar Sukolilo</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.21/vue.global.prod.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.5/cdn.min.js" defer></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --gold: #F5C842;
+      --gold-dark: #D4A017;
+      --gold-light: #FDE68A;
+      --black: #0D0D0D;
+      --charcoal: #1A1A1A;
+      --gray-deep: #2C2C2C;
+      --cream: #FDFBF4;
+      --text-muted: #6B6B6B;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--cream);
+      color: var(--black);
+      overflow-x: hidden;
+    }
+
+    /* ── Typography ─────────────────────────── */
+    .font-display { font-family: 'Playfair Display', serif; }
+    .font-mono-dm { font-family: 'DM Mono', monospace; }
+
+    /* ── Gold Accent ────────────────────────── */
+    .text-gold { color: var(--gold); }
+    .bg-gold { background-color: var(--gold); }
+    .bg-black-deep { background-color: var(--black); }
+    .bg-charcoal { background-color: var(--charcoal); }
+    .border-gold { border-color: var(--gold); }
+
+    /* ── Navbar ─────────────────────────────── */
+    .navbar {
+      background: rgba(13,13,13,0.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 2px solid var(--gold);
+    }
+    .nav-link {
+      position: relative;
+      color: #CCC;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.25s;
+      padding: 4px 0;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0;
+      width: 0; height: 2px;
+      background: var(--gold);
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover, .nav-link.active {
+      color: var(--gold);
+      cursor: pointer;
+    }
+    .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+
+    /* ── Hero ───────────────────────────────── */
+    .hero-bg {
+      background: linear-gradient(135deg, var(--black) 0%, var(--charcoal) 50%, #1C1400 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg::before {
+      content: '';
+      position: absolute;
+      top: -30%; right: -10%;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(245,200,66,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      bottom: -20%; left: -5%;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(245,200,66,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-label {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--black);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      margin-bottom: 20px;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      color: #fff;
+    }
+    .hero-title .highlight { color: var(--gold); }
+    .hero-cta {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--black);
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 14px 32px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: 2px solid var(--gold);
+    }
+    .hero-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(245,200,66,0.4);
+      cursor: pointer;
+    }
+    .hero-cta-outline {
+      display: inline-block;
+      background: transparent;
+      color: var(--gold);
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 14px 32px;
+      border: 2px solid var(--gold);
+      transition: all 0.2s;
+    }
+    .hero-cta-outline:hover {
+      background: var(--gold);
+      color: var(--black);
+      cursor: pointer;
+    }
+    .hero-stat {
+      border-left: 3px solid var(--gold);
+      padding-left: 16px;
+    }
+    .hero-stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--gold);
+    }
+    .hero-stat-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #999;
+    }
+
+    /* ── Section Label ──────────────────────── */
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-label::before {
+      content: '';
+      display: inline-block;
+      width: 32px; height: 2px;
+      background: var(--gold);
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--black);
+    }
+    .section-title-light { color: #fff; }
+
+    /* ── Feature Card ───────────────────────── */
+    .feature-card {
+      background: #fff;
+      border: 1px solid #E8E0CC;
+      padding: 32px 28px;
+      position: relative;
+      transition: transform 0.3s, box-shadow 0.3s;
+      overflow: hidden;
+    }
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px; height: 0;
+      background: var(--gold);
+      transition: height 0.4s ease;
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.1);
+    }
+    .feature-card:hover::before { height: 100%; }
+    .feature-icon {
+      width: 48px; height: 48px;
+      background: var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+    }
+    .feature-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 10px;
+    }
+    .feature-desc {
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: var(--text-muted);
+    }
+
+    /* ── News Card ──────────────────────────── */
+    .news-card {
+      background: #fff;
+      border: 1px solid #E8E0CC;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+    .news-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+    }
+    .news-card-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(20%);
+      transition: filter 0.4s, transform 0.4s;
+    }
+    .news-card:hover .news-card-img {
+      filter: grayscale(0%);
+      transform: scale(1.04);
+    }
+    .news-card-img-wrap { overflow: hidden; position: relative; }
+    .news-cat-badge {
+      position: absolute;
+      bottom: 12px; left: 12px;
+      background: var(--gold);
+      color: var(--black);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+    }
+    .news-card-body { padding: 22px 24px 24px; }
+    .news-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: #999;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+    .news-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--black);
+      line-height: 1.35;
+      margin-bottom: 10px;
+      transition: color 0.2s;
+    }
+    .news-card:hover .news-title { color: var(--gold-dark); }
+    .news-excerpt {
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: 16px;
+    }
+    .news-read-more {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gold-dark);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .news-read-more::after { content: '→'; transition: transform 0.2s; }
+    .news-card:hover .news-read-more::after { transform: translateX(4px); }
+
+    /* ── Featured News (big) ─────────────────── */
+    .news-featured {
+      background: var(--black);
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      min-height: 420px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+    .news-featured-img {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0.35;
+      transition: opacity 0.4s;
+    }
+    .news-featured:hover .news-featured-img { opacity: 0.45; }
+    .news-featured-body {
+      position: relative;
+      z-index: 2;
+      padding: 36px;
+      background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+    }
+
+    /* ── Search & Filter ─────────────────────── */
+    .search-box {
+      border: 2px solid #D4C89A;
+      background: #fff;
+      padding: 12px 18px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+      width: 100%;
+      transition: border-color 0.25s;
+    }
+    .search-box:focus { border-color: var(--gold); }
+    .filter-btn {
+      padding: 8px 20px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border: 2px solid #D4C89A;
+      background: transparent;
+      color: #666;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'DM Mono', monospace;
+    }
+    .filter-btn:hover, .filter-btn.active-filter {
+      border-color: var(--gold);
+      background: var(--gold);
+      color: var(--black);
+    }
+
+    /* ── Kontak Section ─────────────────────── */
+    .kontak-bg {
+      background: var(--black);
+      position: relative;
+      overflow: hidden;
+    }
+    .kontak-bg::after {
+      content: '';
+      position: absolute;
+      top: -50%; right: -10%;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(245,200,66,0.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .kontak-card {
+      border: 1px solid rgba(245,200,66,0.25);
+      padding: 28px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      transition: border-color 0.3s;
+    }
+    .kontak-card:hover { border-color: var(--gold); }
+    .kontak-icon {
+      width: 44px; height: 44px;
+      background: rgba(245,200,66,0.15);
+      border: 1px solid rgba(245,200,66,0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    /* ── Footer ─────────────────────────────── */
+    .footer-bg {
+      background: var(--charcoal);
+      border-top: 3px solid var(--gold);
+    }
+    .social-btn {
+      width: 38px; height: 38px;
+      border: 1px solid rgba(245,200,66,0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      color: #999;
+      transition: all 0.25s;
+      cursor: pointer;
+    }
+    .social-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(245,200,66,0.1);
+    }
+
+    /* ── Divider ────────────────────────────── */
+    .gold-divider {
+      border: none;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+
+    /* ── Mobile Menu ─────────────────────────── */
+    .mobile-menu {
+      background: rgba(13,13,13,0.99);
+      border-top: 1px solid rgba(245,200,66,0.3);
+    }
+    .mobile-nav-link {
+      display: block;
+      padding: 14px 0;
+      color: #CCC;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .mobile-nav-link:hover, .mobile-nav-link.active { color: var(--gold); }
+
+    /* ── Hamburger ──────────────────────────── */
+    .hamburger-line {
+      display: block;
+      width: 22px; height: 2px;
+      background: var(--gold);
+      transition: all 0.3s;
+    }
+    .ham-open .hamburger-line:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .ham-open .hamburger-line:nth-child(2) { opacity: 0; }
+    .ham-open .hamburger-line:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── Animations ─────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .anim-fade-up { animation: fadeUp 0.6s ease both; }
+    .anim-delay-1 { animation-delay: 0.1s; }
+    .anim-delay-2 { animation-delay: 0.25s; }
+    .anim-delay-3 { animation-delay: 0.4s; }
+    .anim-delay-4 { animation-delay: 0.55s; }
+
+    /* ── Scrollbar ──────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--cream); }
+    ::-webkit-scrollbar-thumb { background: var(--gold); }
+
+    /* ── Utility ────────────────────────────── */
+    .gap-grid { gap: 28px; }
+    .prose-muted { font-size: 0.92rem; line-height: 1.75; color: var(--text-muted); }
+
+    /* responsif */
+    @media (max-width: 768px) {
+      .news-featured-body { padding: 24px; }
+      .hero-bg { min-height: auto; padding-top: 100px; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ╔══════════════════════════════════════╗
+       ║   Components/Navbar.vue              ║
+       ╚══════════════════════════════════════╝
+    Props: tidak ada (global state via ref)
+    Emits: update currentPage, toggle mobile menu
+    Reusability: gunakan prop `links` jika ingin
+    navbar yang dikonfigurasi dari luar.
+  -->
+  <nav class="navbar fixed top-0 left-0 right-0 z-50">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="flex items-center justify-between" style="height:64px">
+
+        <!-- Logo -->
+        <div class="flex items-center gap-3 cursor-pointer" @click="navigate('home')">
+          <div class="bg-gold flex items-center justify-center font-display font-black text-black text-lg"
+               style="width:40px;height:40px;letter-spacing:-1px">PG</div>
+          <div>
+            <div class="text-white font-display font-bold text-sm leading-tight">PK Golkar</div>
+            <div class="font-mono-dm text-xs leading-tight" style="color:var(--gold);letter-spacing:.08em">SUKOLILO</div>
+          </div>
+        </div>
+
+        <!-- Desktop Nav -->
+        <div class="hidden md:flex items-center gap-8">
+          <span v-for="link in navLinks" :key="link.page"
+                class="nav-link"
+                :class="{ active: currentPage === link.page }"
+                @click="navigate(link.page)">
+            {{ link.label }}
+          </span>
+        </div>
+
+        <!-- Mobile Hamburger -->
+        <button class="md:hidden flex flex-col gap-1.5 p-2"
+                :class="{ 'ham-open': mobileOpen }"
+                @click="mobileOpen = !mobileOpen"
+                aria-label="Toggle menu">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu Dropdown -->
+    <div v-show="mobileOpen" class="mobile-menu md:hidden px-5 pb-4">
+      <span v-for="link in navLinks" :key="link.page"
+            class="mobile-nav-link"
+            :class="{ active: currentPage === link.page }"
+            @click="navigate(link.page); mobileOpen = false">
+        {{ link.label }}
+      </span>
+    </div>
+  </nav>
+  <!-- End Navbar.vue -->
+
+
+  <!-- ╔══════════════════════════════════════╗
+       ║   Views/HomeView.vue                 ║
+       ╚══════════════════════════════════════╝ -->
+  <div v-if="currentPage === 'home'">
+
+    <!-- ┌──────────────────────────────────────┐
+         │ Components/HeroSection.vue           │
+         │ Props:                               │
+         │   label  - teks badge atas           │
+         │   title  - judul utama (HTML ok)     │
+         │   desc   - paragraf deskripsi        │
+         │   ctaText, ctaAction                 │
+         │   ctaSecondText, ctaSecondAction     │
+         │   stats  - array { num, label }      │
+         └──────────────────────────────────────┘ -->
+    <section class="hero-bg" style="min-height:100vh;display:flex;align-items:center;padding-top:64px">
+      <div class="max-w-6xl mx-auto px-5 py-24">
+        <div class="grid md:grid-cols-2 gap-16 items-center">
+
+          <!-- Left: Text -->
+          <div>
+            <div class="hero-label anim-fade-up">{{ hero.label }}</div>
+            <h1 class="hero-title anim-fade-up anim-delay-1 mb-6"
+                v-html="hero.title"></h1>
+            <p class="prose-muted anim-fade-up anim-delay-2 mb-10"
+               style="color:#AAA;max-width:480px">{{ hero.desc }}</p>
+            <div class="flex flex-wrap gap-4 anim-fade-up anim-delay-3">
+              <span class="hero-cta" @click="navigate(hero.ctaPage)">{{ hero.ctaText }}</span>
+              <span class="hero-cta-outline" @click="navigate(hero.ctaSecondPage)">{{ hero.ctaSecondText }}</span>
+            </div>
+          </div>
+
+          <!-- Right: Stats -->
+          <div class="anim-fade-up anim-delay-4">
+            <div class="grid grid-cols-2 gap-6">
+              <div v-for="stat in hero.stats" :key="stat.label" class="hero-stat">
+                <div class="hero-stat-num">{{ stat.num }}</div>
+                <div class="hero-stat-label">{{ stat.label }}</div>
+              </div>
+            </div>
+            <!-- Decorative quote -->
+            <div class="mt-10 border border-yellow-600 border-opacity-30 p-6" style="background:rgba(245,200,66,0.05)">
+              <div class="font-mono-dm text-xs mb-3" style="color:var(--gold);letter-spacing:.1em">— SEMBOYAN</div>
+              <p class="font-display text-white font-bold text-xl leading-snug">
+                "Suara Rakyat, <span style="color:var(--gold)">Aksi Nyata</span>"
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End HeroSection.vue -->
+
+
+    <!-- ┌──────────────────────────────────────┐
+         │ Section: Visi Misi & Program         │
+         │ (menggunakan FeatureCard.vue)        │
+         └──────────────────────────────────────┘ -->
+    <section style="background:var(--cream);padding:96px 0">
+      <div class="max-w-6xl mx-auto px-5">
+        <div class="text-center mb-14">
+          <div class="section-label justify-center mb-4">Landasan Organisasi</div>
+          <h2 class="section-title">Visi, Misi &amp; Program Unggulan</h2>
+        </div>
+
+        <!-- ┌─────────────────────────────────────┐
+             │ Components/FeatureCard.vue           │
+             │ Props:                               │
+             │   icon        - emoji/icon string    │
+             │   title       - judul kartu          │
+             │   description - teks deskripsi       │
+             │   accent      - (opt) warna aksen    │
+             │                                      │
+             │ Reusability: komponen ini bisa        │
+             │ dipakai di halaman Profil, Program,  │
+             │ Berita — cukup ubah props-nya.       │
+             └─────────────────────────────────────┘ -->
+        <div class="grid md:grid-cols-3 gap-grid">
+          <div v-for="(card, i) in featureCards" :key="i" class="feature-card">
+            <div class="feature-icon">{{ card.icon }}</div>
+            <div class="feature-title">{{ card.title }}</div>
+            <p class="feature-desc">{{ card.description }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End FeatureCard.vue section -->
+
+
+    <!-- ┌──────────────────────────────────────┐
+         │ Section: Berita Terbaru              │
+         │ (menggunakan NewsCard.vue)           │
+         └──────────────────────────────────────┘ -->
+    <section style="background:#fff;padding:96px 0">
+      <div class="max-w-6xl mx-auto px-5">
+        <div class="flex items-end justify-between mb-12 flex-wrap gap-4">
+          <div>
+            <div class="section-label mb-4">Kabar Terkini</div>
+            <h2 class="section-title">Berita Terbaru</h2>
+          </div>
+          <span class="hero-cta-outline text-sm" style="padding:10px 24px"
+                @click="navigate('berita')">Semua Berita →</span>
+        </div>
+
+        <!-- Featured + Grid -->
+        <div class="grid md:grid-cols-5 gap-grid mb-8">
+          <!-- Featured big card -->
+          <!-- ┌─────────────────────────────────────┐
+               │ Components/NewsCard.vue (featured)   │
+               │ Props:                               │
+               │   image   - URL gambar               │
+               │   date    - tanggal string           │
+               │   title   - judul berita             │
+               │   excerpt - ringkasan singkat        │
+               │   slug    - identifier artikel       │
+               │   category- label kategori           │
+               │   featured- (bool) tampilan besar    │
+               └─────────────────────────────────────┘ -->
+          <div class="md:col-span-3">
+            <div class="news-featured" @click="navigate('berita')">
+              <img :src="latestNews[0].image" :alt="latestNews[0].title" class="news-featured-img" />
+              <div class="news-featured-body">
+                <div class="news-cat-badge" style="position:relative;bottom:auto;left:auto;display:inline-block;margin-bottom:10px">
+                  {{ latestNews[0].category }}
+                </div>
+                <div class="news-date mb-2">{{ latestNews[0].date }}</div>
+                <h3 class="font-display font-bold text-white mb-3" style="font-size:1.4rem;line-height:1.3">
+                  {{ latestNews[0].title }}
+                </h3>
+                <p class="news-excerpt" style="color:#CCC">{{ latestNews[0].excerpt }}</p>
+                <span class="news-read-more">Baca Selengkapnya</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Small cards -->
+          <div class="md:col-span-2 flex flex-col gap-grid">
+            <div v-for="(news, i) in latestNews.slice(1,3)" :key="i" class="news-card">
+              <div class="news-card-img-wrap">
+                <img :src="news.image" :alt="news.title" class="news-card-img" />
+                <div class="news-cat-badge">{{ news.category }}</div>
+              </div>
+              <div class="news-card-body">
+                <div class="news-date">{{ news.date }}</div>
+                <h3 class="news-title">{{ news.title }}</h3>
+                <p class="news-excerpt">{{ news.excerpt }}</p>
+                <span class="news-read-more" @click.stop="navigate('berita')">Baca</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom 3 cards -->
+        <div class="grid md:grid-cols-3 gap-grid">
+          <div v-for="(news, i) in latestNews.slice(3,6)" :key="i" class="news-card">
+            <div class="news-card-img-wrap">
+              <img :src="news.image" :alt="news.title" class="news-card-img" />
+              <div class="news-cat-badge">{{ news.category }}</div>
+            </div>
+            <div class="news-card-body">
+              <div class="news-date">{{ news.date }}</div>
+              <h3 class="news-title">{{ news.title }}</h3>
+              <p class="news-excerpt">{{ news.excerpt }}</p>
+              <span class="news-read-more" @click.stop="navigate('berita')">Baca</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End NewsCard.vue section -->
+
+  </div>
+  <!-- End HomeView.vue -->
+
+
+  <!-- ╔══════════════════════════════════════╗
+       ║   Views/NewsView.vue                 ║
+       ╚══════════════════════════════════════╝
+    Fitur:
+    - Pencarian reaktif dengan ref
+    - Filter kategori
+    - Data dummy via reactive array
+  -->
+  <div v-if="currentPage === 'berita'" style="padding-top:64px">
+    <div style="background:var(--black);padding:72px 0">
+      <div class="max-w-6xl mx-auto px-5">
+        <div class="section-label mb-4" style="color:var(--gold)">Kabar Terkini</div>
+        <h1 class="font-display font-black text-white" style="font-size:clamp(2rem,5vw,3.5rem)">
+          Semua <span style="color:var(--gold)">Berita</span>
+        </h1>
+      </div>
+    </div>
+
+    <div style="background:var(--cream);padding:64px 0">
+      <div class="max-w-6xl mx-auto px-5">
+
+        <!-- Search & Filter Bar -->
+        <div class="flex flex-col md:flex-row gap-4 mb-10">
+          <input
+            v-model="searchQuery"
+            class="search-box"
+            placeholder="🔍  Cari berita, program, kegiatan..."
+            style="flex:1"
+          />
+          <div class="flex flex-wrap gap-2">
+            <button
+              v-for="cat in categories" :key="cat"
+              class="filter-btn"
+              :class="{ 'active-filter': activeCategory === cat }"
+              @click="activeCategory = cat">
+              {{ cat }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Hasil pencarian info -->
+        <div class="font-mono-dm text-xs mb-8" style="color:#999;letter-spacing:.08em">
+          Menampilkan <strong style="color:var(--gold)">{{ filteredNews.length }}</strong> artikel
+          <span v-if="searchQuery"> · kata kunci: "<em>{{ searchQuery }}</em>"</span>
+          <span v-if="activeCategory !== 'Semua'"> · kategori: {{ activeCategory }}</span>
+        </div>
+
+        <!-- News Grid -->
+        <div v-if="filteredNews.length > 0" class="grid md:grid-cols-3 gap-grid">
+          <div v-for="(news, i) in filteredNews" :key="i" class="news-card">
+            <div class="news-card-img-wrap">
+              <img :src="news.image" :alt="news.title" class="news-card-img" />
+              <div class="news-cat-badge">{{ news.category }}</div>
+            </div>
+            <div class="news-card-body">
+              <div class="news-date">{{ news.date }}</div>
+              <h3 class="news-title">{{ news.title }}</h3>
+              <p class="news-excerpt">{{ news.excerpt }}</p>
+              <span class="news-read-more">Baca Selengkapnya</span>
+            </div>
+          </div>
+        </div>
+        <!-- Empty state -->
+        <div v-else class="text-center py-20">
+          <div style="font-size:3rem;margin-bottom:16px">🔎</div>
+          <div class="font-display font-bold text-xl mb-2">Berita tidak ditemukan</div>
+          <p class="prose-muted">Coba kata kunci atau kategori yang berbeda.</p>
+          <button class="filter-btn active-filter mt-6"
+                  @click="searchQuery = ''; activeCategory = 'Semua'">Reset Filter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End NewsView.vue -->
+
+
+  <!-- ╔══════════════════════════════════════╗
+       ║   Views/ProfilView.vue               ║
+       ╚══════════════════════════════════════╝ -->
+  <div v-if="currentPage === 'profil'" style="padding-top:64px">
+    <div style="background:var(--black);padding:72px 0">
+      <div class="max-w-6xl mx-auto px-5">
+        <div class="section-label mb-4">Tentang Kami</div>
+        <h1 class="font-display font-black text-white" style="font-size:clamp(2rem,5vw,3.5rem)">
+          Profil <span style="color:var(--gold)">Organisasi</span>
+        </h1>
+      </div>
+    </div>
+
+    <div style="background:var(--cream);padding:72px 0">
+      <div class="max-w-6xl mx-auto px-5">
+        <div class="grid md:grid-cols-2 gap-16 items-start">
+          <div>
+            <div class="section-label mb-4">Sejarah Singkat</div>
+            <h2 class="section-title mb-6">PK Partai Golkar<br>Kecamatan Sukolilo</h2>
+            <p class="prose-muted mb-5">
+              Pimpinan Kecamatan (PK) Partai Golongan Karya Sukolilo adalah ujung tombak organisasi Golkar
+              di tingkat kecamatan dalam lingkup Kota Surabaya. Organisasi ini berperan aktif dalam
+              menjalankan program-program partai yang berorientasi pada kesejahteraan rakyat.
+            </p>
+            <p class="prose-muted mb-5">
+              Berdiri sejak era reformasi dan terus berkembang, PK Golkar Sukolilo berkomitmen membangun
+              komunikasi yang erat antara kader, konstituen, dan pemerintah daerah untuk mewujudkan
+              Sukolilo yang mandiri, maju, dan berkeadilan.
+            </p>
+            <p class="prose-muted">
+              Dengan basis kader yang solid di seluruh kelurahan dan dukungan aktif dari warga,
+              kami terus bergerak menjadi garda terdepan dalam pembangunan masyarakat lokal.
+            </p>
+          </div>
+          <div>
+            <!-- Visi Misi Cards -->
+            <div class="feature-card mb-6">
+              <div class="feature-icon">🎯</div>
+              <div class="feature-title">Visi</div>
+              <p class="feature-desc">
+                Mewujudkan Kecamatan Sukolilo yang maju, sejahtera, dan berkeadilan melalui
+                tata kelola organisasi yang transparan, responsif, dan berorientasi kepada
+                kepentingan masyarakat luas.
+              </p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">📋</div>
+              <div class="feature-title">Misi Utama</div>
+              <ul class="feature-desc" style="list-style:disc;padding-left:18px;line-height:2">
+                <li>Menguatkan basis kader dan jaringan organisasi</li>
+                <li>Menyerap aspirasi rakyat secara aktif dan berkelanjutan</li>
+                <li>Mendorong kebijakan pro-rakyat di tingkat legislatif</li>
+                <li>Membangun sinergi lintas elemen masyarakat</li>
+                <li>Mewujudkan kepemimpinan yang amanah dan berintegritas</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <hr class="gold-divider my-16" />
+
+        <!-- Struktur Pengurus -->
+        <div class="text-center mb-12">
+          <div class="section-label justify-center mb-4">Pengurus Inti</div>
+          <h2 class="section-title">Struktur Kepemimpinan</h2>
+        </div>
+        <div class="grid md:grid-cols-3 gap-grid">
+          <div v-for="pengurus in strukturPengurus" :key="pengurus.nama" class="feature-card text-center">
+            <div class="mx-auto mb-4 flex items-center justify-center font-display font-black text-black text-2xl"
+                 style="width:64px;height:64px;background:var(--gold)">
+              {{ pengurus.nama.charAt(0) }}
+            </div>
+            <div class="feature-title">{{ pengurus.nama }}</div>
+            <div class="font-mono-dm text-xs mb-3" style="color:var(--gold);letter-spacing:.08em">
+              {{ pengurus.jabatan }}
+            </div>
+            <p class="feature-desc">{{ pengurus.deskripsi }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End ProfilView.vue -->
+
+
+  <!-- ╔══════════════════════════════════════╗
+       ║   Views/KontakView.vue               ║
+       ╚══════════════════════════════════════╝ -->
+  <div v-if="currentPage === 'kontak'" style="padding-top:64px">
+    <div style="background:var(--black);padding:72px 0">
+      <div class="max-w-6xl mx-auto px-5">
+        <div class="section-label mb-4">Hubungi Kami</div>
+        <h1 class="font-display font-black text-white" style="font-size:clamp(2rem,5vw,3.5rem)">
+          Kontak &amp; <span style="color:var(--gold)">Lokasi</span>
+        </h1>
+      </div>
+    </div>
+
+    <div class="kontak-bg" style="padding:72px 0">
+      <div class="max-w-6xl mx-auto px-5 relative" style="z-index:1">
+        <div class="grid md:grid-cols-2 gap-16">
+          <div>
+            <div class="section-label mb-6" style="color:var(--gold)">Informasi Kontak</div>
+            <div class="flex flex-col gap-4 mb-10">
+              <div v-for="kontak in kontakInfo" :key="kontak.label" class="kontak-card">
+                <div class="kontak-icon">{{ kontak.icon }}</div>
+                <div>
+                  <div class="font-mono-dm text-xs mb-1" style="color:var(--gold);letter-spacing:.1em">
+                    {{ kontak.label }}
+                  </div>
+                  <div class="text-white font-medium text-sm">{{ kontak.value }}</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sosmed -->
+            <div class="section-label mb-4" style="color:var(--gold)">Media Sosial</div>
+            <div class="flex gap-3 flex-wrap">
+              <div v-for="sosmed in socialMedia" :key="sosmed.name" class="social-btn" :title="sosmed.name">
+                {{ sosmed.icon }}
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="section-label mb-6" style="color:var(--gold)">Kirim Pesan</div>
+            <!-- Form Kontak -->
+            <div class="flex flex-col gap-4">
+              <div>
+                <label class="font-mono-dm text-xs block mb-2" style="color:#AAA;letter-spacing:.1em">NAMA LENGKAP</label>
+                <input v-model="contactForm.nama" class="search-box" placeholder="Nama Anda..."
+                       style="background:rgba(255,255,255,0.05);color:#fff;border-color:rgba(245,200,66,0.25)" />
+              </div>
+              <div>
+                <label class="font-mono-dm text-xs block mb-2" style="color:#AAA;letter-spacing:.1em">NO. TELEPON / WA</label>
+                <input v-model="contactForm.telp" class="search-box" placeholder="0812 xxxx xxxx"
+                       style="background:rgba(255,255,255,0.05);color:#fff;border-color:rgba(245,200,66,0.25)" />
+              </div>
+              <div>
+                <label class="font-mono-dm text-xs block mb-2" style="color:#AAA;letter-spacing:.1em">PESAN</label>
+                <textarea v-model="contactForm.pesan" class="search-box" rows="5"
+                          placeholder="Tuliskan aspirasi, masukan, atau pertanyaan Anda..."
+                          style="background:rgba(255,255,255,0.05);color:#fff;border-color:rgba(245,200,66,0.25);resize:vertical"></textarea>
+              </div>
+              <div>
+                <button class="hero-cta w-full text-center" @click="submitContact"
+                        :disabled="contactSent" style="border:none;font-family:'DM Sans',sans-serif">
+                  {{ contactSent ? '✓ Pesan Terkirim!' : 'Kirim Pesan' }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End KontakView.vue -->
+
+
+  <!-- ╔══════════════════════════════════════╗
+       ║   Components/Footer.vue              ║
+       ╚══════════════════════════════════════╝ -->
+  <footer class="footer-bg">
+    <div class="max-w-6xl mx-auto px-5 py-14">
+      <div class="grid md:grid-cols-4 gap-10 mb-10">
+
+        <!-- Brand -->
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="bg-gold flex items-center justify-center font-display font-black text-black text-lg"
+                 <img src="Logo_Golkar.svg" alt="Logo Golkar" style="width: 100%; height: 100%;">
+              <div class="text-white font-display font-bold">PK Partai Golkar</div>
+              <div class="font-mono-dm text-xs" style="color:var(--gold)">KECAMATAN SUKOLILO · SURABAYA</div>
+            </div>
+          </div>
+          <p class="prose-muted text-sm mb-5" style="color:#888;max-width:320px">
+            Bersama rakyat, untuk rakyat. PK Golkar Sukolilo berkomitmen membangun
+            Sukolilo yang maju, adil, dan sejahtera untuk semua.
+          </p>
+          <div class="flex gap-3">
+            <div v-for="sosmed in socialMedia" :key="sosmed.name" class="social-btn">
+              {{ sosmed.icon }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <div class="font-mono-dm text-xs mb-5" style="color:var(--gold);letter-spacing:.12em">NAVIGASI</div>
+          <ul class="flex flex-col gap-3">
+            <li v-for="link in navLinks" :key="link.page">
+              <span class="text-sm cursor-pointer transition-colors"
+                    style="color:#888"
+                    @mouseenter="$event.target.style.color='var(--gold)'"
+                    @mouseleave="$event.target.style.color='#888'"
+                    @click="navigate(link.page); window.scrollTo(0,0)">
+                {{ link.label }}
+              </span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Kontak Singkat -->
+        <div>
+          <div class="font-mono-dm text-xs mb-5" style="color:var(--gold);letter-spacing:.12em">KONTAK</div>
+          <div class="flex flex-col gap-3 text-sm" style="color:#888">
+            <div class="flex gap-2"><span>📍</span><span>Jl. Semolowaru No.12, Sukolilo, Surabaya</span></div>
+            <div class="flex gap-2"><span>📞</span><span>+62 812-3456-7890</span></div>
+            <div class="flex gap-2"><span>✉️</span><span>golkar.sukolilo@gmail.com</span></div>
+            <div class="flex gap-2"><span>🕐</span><span>Senin–Jumat, 08.00–16.00 WIB</span></div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="gold-divider mb-6" />
+      <div class="flex flex-col md:flex-row justify-between items-center gap-3 text-xs"
+           style="color:#555;font-family:'DM Mono',monospace;letter-spacing:.06em">
+        <span>© {{ new Date().getFullYear() }} PK Partai Golkar Sukolilo. Hak Cipta Dilindungi.</span>
+        <span style="color:var(--gold)">BERINGIN · KARYA · KEADILAN</span>
+      </div>
+    </div>
+  </footer>
+  <!-- End Footer.vue -->
+
+</div>
+
+<script>
+const { createApp, ref, reactive, computed } = Vue;
+
+createApp({
+  setup() {
+
+    /* ─────────────────────────────────────────
+       STATE: Navigasi (simulasi router)
+       currentPage: ref yang mengontrol view mana
+       yang ditampilkan — pengganti Vue Router
+    ───────────────────────────────────────── */
+    const currentPage = ref('home');
+    const mobileOpen  = ref(false);
+
+    const navLinks = [
+      { label: 'Beranda', page: 'home' },
+      { label: 'Profil',  page: 'profil' },
+      { label: 'Berita',  page: 'berita' },
+      { label: 'Kontak',  page: 'kontak' },
+    ];
+
+    function navigate(page) {
+      currentPage.value = page;
+      mobileOpen.value  = false;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+
+    /* ─────────────────────────────────────────
+       DATA: HeroSection.vue props simulation
+       Dalam arsitektur modular, objek `hero`
+       ini diteruskan sebagai props ke komponen.
+    ───────────────────────────────────────── */
+    const hero = reactive({
+      label: 'PK Partai Golkar · Kecamatan Sukolilo Kota Surabaya',
+      title: 'Bersama Rakyat,<br><span class="highlight">Membangun Sukolilo</span>',
+      desc:  'Pimpinan Kecamatan Partai Golkar Sukolilo hadir untuk menyerap aspirasi, mendorong kebijakan pro-rakyat, dan mewujudkan Sukolilo yang maju, adil, dan sejahtera bagi seluruh warganya.',
+      ctaText:        'Lihat Program Kami',
+      ctaPage:        'profil',
+      ctaSecondText:  'Berita Terkini',
+      ctaSecondPage:  'berita',
+      stats: [
+        { num: '7',    label: 'Kelurahan' },
+        { num: '12',    label: 'Program Unggulan' },
+      ]
+    });
+
+
+    /* ─────────────────────────────────────────
+       DATA: FeatureCard.vue props simulation
+       Props: icon, title, description
+       Bisa di-loop dengan v-for di view manapun
+    ───────────────────────────────────────── */
+    const featureCards = ref([
+      {
+        icon: '🎯',
+        title: 'Visi Organisasi',
+        description: 'Mewujudkan Sukolilo yang mandiri, maju, dan berkeadilan melalui kepemimpinan Golkar yang amanah, transparan, dan berorientasi kepada kesejahteraan masyarakat.'
+      },
+      {
+        icon: '🤝',
+        title: 'Misi Bersama',
+        description: 'Membangun jaringan kader yang solid, menyerap aspirasi warga secara aktif, dan mendorong kebijakan pro-rakyat di semua lini pemerintahan.'
+      },
+      {
+        icon: '🌾',
+        title: 'Program UMKM',
+        description: 'Pelatihan, pendampingan, dan akses permodalan bagi pelaku usaha mikro kecil menengah di Kecamatan Sukolilo untuk meningkatkan daya saing ekonomi warga.'
+      },
+      {
+        icon: '📚',
+        title: 'Golkar Pintar',
+        description: 'Program beasiswa dan pembinaan generasi muda, termasuk bimbingan belajar gratis, pelatihan digital, dan pemberdayaan pemuda di seluruh kelurahan.'
+      },
+      {
+        icon: '🏥',
+        title: 'Layanan Kesehatan',
+        description: 'Fasilitasi akses layanan kesehatan gratis, pengobatan keliling, dan sosialisasi hidup sehat bagi warga yang membutuhkan di wilayah Sukolilo.'
+      },
+      {
+        icon: '🌿',
+        title: 'Lingkungan Bersih',
+        description: 'Kampanye lingkungan, penghijauan, pengelolaan sampah berbasis komunitas, dan pembangunan ruang terbuka hijau di Kecamatan Sukolilo.'
+      },
+    ]);
+
+
+    /* ─────────────────────────────────────────
+       DATA: NewsCard.vue props simulation
+       Props: image, date, title, excerpt,
+              slug, category, featured
+    ───────────────────────────────────────── */
+    const allNews = ref([
+      {
+        image: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&q=80',
+        date: '18 Mei 2025',
+        category: 'Kegiatan',
+        title: 'Rapat Koordinasi Kader Golkar Sukolilo: Konsolidasi Menuju Pilkada',
+        excerpt: 'PK Golkar Sukolilo menggelar rapat koordinasi seluruh kader se-kecamatan guna memperkuat soliditas organisasi dan membahas strategi pemenangan dalam agenda politik ke depan.',
+        slug: 'rapat-koordinasi-kader-2025'
+      },
+      {
+        image: 'https://images.unsplash.com/photo-1607962837359-5e7e89f86776?w=800&q=80',
+        date: '15 Mei 2025',
+        category: 'Program',
+        title: 'Pelatihan UMKM Gratis untuk 200 Warga Sukolilo Berjalan Sukses',
+        excerpt: 'Sebanyak 200 pelaku usaha mikro di Sukolilo mengikuti pelatihan kewirausahaan dan digital marketing yang difasilitasi oleh PK Golkar bekerja sama dengan Dinas Koperasi Surabaya.',
+        slug: 'pelatihan-umkm-2025'
+      },
+      {
+        image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80',
+        date: '10 Mei 2025',
+        category: 'Kesehatan',
+        title: 'Golkar Sukolilo Gelar Pengobatan Gratis di 5 Kelurahan Serentak',
+        excerpt: 'Ratusan warga antusias mengikuti program pengobatan dan cek kesehatan gratis yang diselenggarakan PK Golkar Sukolilo bekerja sama dengan puskesmas dan relawan medis.',
+        slug: 'pengobatan-gratis-mei-2025'
+      },
+      {
+        image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&q=80',
+        date: '5 Mei 2025',
+        category: 'Pendidikan',
+        title: 'Beasiswa Golkar Pintar: 50 Pelajar Berprestasi Terima Bantuan Pendidikan',
+        excerpt: 'Program Golkar Pintar kembali menyalurkan beasiswa kepada 50 pelajar berprestasi dari keluarga kurang mampu di lingkungan Kecamatan Sukolilo sebagai wujud komitmen di bidang pendidikan.',
+        slug: 'beasiswa-golkar-pintar-2025'
+      },
+      {
+        image: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&q=80',
+        date: '28 April 2025',
+        category: 'Lingkungan',
+        title: 'Aksi Penghijauan: Tanam 1.000 Pohon di Sepanjang Jalan Sukolilo',
+        excerpt: 'PK Golkar Sukolilo bersama warga dan komunitas lingkungan melakukan aksi penanaman seribu pohon sebagai bagian dari program Sukolilo Hijau dan Bersih 2025.',
+        slug: 'aksi-penghijauan-2025'
+      },
+      {
+        image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80',
+        date: '22 April 2025',
+        category: 'Kegiatan',
+        title: 'Musyawarah Kelurahan: Golkar Sukolilo Serap Aspirasi Langsung dari Warga',
+        excerpt: 'Melalui forum musyawarah yang dihadiri ratusan warga, PK Golkar Sukolilo aktif mendengar dan mencatat aspirasi masyarakat sebagai bahan penyusunan program prioritas organisasi.',
+        slug: 'musyawarah-kelurahan-april-2025'
+      },
+      {
+        image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&q=80',
+        date: '15 April 2025',
+        category: 'Program',
+        title: 'Launching Posko Pengaduan Warga: Golkar Hadir untuk Semua',
+        excerpt: 'Sebagai bentuk komitmen pelayanan publik, PK Golkar Sukolilo resmi membuka Posko Pengaduan Warga yang beroperasi setiap hari kerja untuk menampung keluhan dan aspirasi masyarakat.',
+        slug: 'posko-pengaduan-warga-2025'
+      },
+      {
+        image: 'https://images.unsplash.com/photo-1593113630400-ea4288922559?w=800&q=80',
+        date: '8 April 2025',
+        category: 'Kesehatan',
+        title: 'Vaksinasi Massal di Sukolilo: Golkar Pastikan Warga Terlindungi',
+        excerpt: 'Bekerja sama dengan Dinas Kesehatan Surabaya, PK Golkar Sukolilo memfasilitasi vaksinasi massal yang menjangkau lebih dari 1.200 warga di 7 kelurahan dalam satu hari.',
+        slug: 'vaksinasi-massal-april-2025'
+      },
+      {
+        image: 'https://images.unsplash.com/photo-1588072432836-e10032774350?w=800&q=80',
+        date: '1 April 2025',
+        category: 'Pendidikan',
+        title: 'Workshop Digital Marketing bagi Pemuda Sukolilo, Peserta Membludak',
+        excerpt: 'Antusias luar biasa ditunjukkan pemuda Sukolilo dalam workshop digital marketing dan e-commerce yang digelar PK Golkar sebagai bagian dari program pemberdayaan generasi muda.',
+        slug: 'workshop-digital-pemuda-2025'
+      },
+    ]);
+
+    // Computed: latest 6 news untuk HomeView
+    const latestNews = computed(() => allNews.value.slice(0, 6));
+
+
+    /* ─────────────────────────────────────────
+       STATE: NewsView.vue — Pencarian & Filter
+       searchQuery dan activeCategory adalah
+       reactive state yang mengontrol filteredNews
+    ───────────────────────────────────────── */
+    const searchQuery    = ref('');
+    const activeCategory = ref('Semua');
+
+    const categories = computed(() => {
+      const cats = ['Semua', ...new Set(allNews.value.map(n => n.category))];
+      return cats;
+    });
+
+    const filteredNews = computed(() => {
+      return allNews.value.filter(news => {
+        const matchCat  = activeCategory.value === 'Semua' || news.category === activeCategory.value;
+        const q         = searchQuery.value.toLowerCase();
+        const matchSearch = !q ||
+          news.title.toLowerCase().includes(q) ||
+          news.excerpt.toLowerCase().includes(q) ||
+          news.category.toLowerCase().includes(q);
+        return matchCat && matchSearch;
+      });
+    });
+
+
+    /* ─────────────────────────────────────────
+       DATA: ProfilView — Struktur Pengurus
+    ───────────────────────────────────────── */
+    const strukturPengurus = ref([
+      {
+        nama: 'Setyo Kusumo',
+        jabatan: 'Ketua PK',
+        deskripsi: 'Memimpin organisasi dengan pengalaman di lapangan politik dan kemasyarakatan Sukolilo.'
+      },
+      {
+        nama: 'Dra. Siti Rahayu',
+        jabatan: 'Sekretaris',
+        deskripsi: 'Mengelola administrasi dan koordinasi program organisasi dengan efisien dan transparan.'
+      },
+      {
+        nama: 'Ir. Agus Prasetyo',
+        jabatan: 'Bendahara',
+        deskripsi: 'Bertanggung jawab atas pengelolaan keuangan organisasi secara akuntabel dan sesuai aturan partai.'
+      },
+    ]);
+
+
+    /* ─────────────────────────────────────────
+       DATA: Footer & Kontak
+    ───────────────────────────────────────── */
+    const kontakInfo = ref([
+      { icon: '📍', label: 'ALAMAT',   value: 'Jl. Keputih Timur no.73, Kel. Keputih, Kec. Sukolilo, Surabaya 60111' },
+      { icon: '📞', label: 'TELEPON',  value: '+62 812-3250-8441' },
+      { icon: '✉️', label: 'EMAIL',    value: 'golkar.sukolilo@gmail.com' },
+    ]);
+
+    /* Form kontak state */
+    const contactForm = reactive({ nama: '', telp: '', pesan: '' });
+    const contactSent = ref(false);
+
+    function submitContact() {
+      if (!contactForm.nama || !contactForm.pesan) {
+        alert('Mohon lengkapi nama dan pesan Anda.');
+        return;
+      }
+      contactSent.value = true;
+      setTimeout(() => {
+        contactSent.value = false;
+        contactForm.nama  = '';
+        contactForm.telp  = '';
+        contactForm.pesan = '';
+      }, 3500);
+    }
+
+
+    return {
+      currentPage, mobileOpen, navLinks, navigate,
+      hero, featureCards,
+      latestNews, allNews,
+      searchQuery, activeCategory, categories, filteredNews,
+      strukturPengurus,
+      socialMedia, kontakInfo,
+      contactForm, contactSent, submitContact,
+    };
+  }
+}).mount('#app');
+</script>
+</body>
+</html>
